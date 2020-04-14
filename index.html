@@ -75,6 +75,8 @@
         var un = $("input[name=username]").val();
         var pw = $("input[name=password]").val()
 
+          //CryptoJS.MD5(pw)
+
         data = { 'username': un, 'password': pw }
         
         $.post("login.php", data, function (response) {
