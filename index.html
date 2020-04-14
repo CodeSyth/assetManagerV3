@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Asset Manager</title>
+
+</head>
+
+<body>
+
+  <div class="container" style="padding-top: 50px;">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>Asset Manager</h1>
+        <!-- <form> -->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input name="username" type="email" class="form-control" aria-describedby="email" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">Don't remember your username? Try your email
+            address.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input name="password" type="password" class="form-control" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnLogin">Login</button>
+        <a href="">Sign Up</a>
+        <div id="errors">
+
+        </div>
+        <!-- </form> -->
+      </div>
+      <div class="col-sm-6">
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+
+
+  <script>
+    $(document).ready(function () {
+      $("#btnLogin").click(function () {
+        // $.ajax({
+        //   type: "POST",
+        //   url: "./login.php",
+        //   // The key needs to match your method's input parameter (case-sensitive).
+        //   data: JSON.stringify({'username': $("input[name=username]").val(), 'password': $("input[name=password]").val()}),
+        //   contentType: "application/json; charset=utf-8",
+        //   dataType: "json",
+        //   success: function(data){alert("success");},
+        //   failure: function(errMsg) {
+        //       alert("error");
+        //   }
+        // });
+
+        var un = $("input[name=username]").val();
+        var pw = $("input[name=password]").val()
+
+        data = { 'username': un, 'password': pw }
+        
+        $.post("login.php", data, function (response) {
+          var success = true;
+          var jsonResp = JSON.parse(response);
+          var eStr = "";
+
+          console.log(jsonResp);
+
+          for (var i = 0; i < Object.keys(jsonResp).length; i++) {
+
+            if (jsonResp[0].status == "FAIL") {
+              eStr += "<div class='text-danger' id='error'> Login Failed! " + jsonResp[i].message + "</div>";
+              success = false;
+            } else {
+              eStr += "<div class='text-success' id='error'> Login Failed! " + jsonResp[i].message + "</div>";
+            }
+          }
+
+          $("#errors").replaceWith(eStr);
+
+          if (success) {
+            //document.location.href = "/assetManager/home.html"
+            alert("logged in!!!");
+          }
+
+
+        });
+
+
+        // $.post("login.php",data, function(response){
+        //   var success = true;
+        //   var len = response.length
+
+
+        //   for(var i=0; i<len; i++){
+        //     var status = response[i].status;
+        //     var message = response[i].message;
+
+        //     if (status == "FAIL"){
+        //       var eStr = "<div class='text-danger'>" +
+        //         status + " " + message +
+        //         "</div>";
+
+        //         alert("got here fail");
+
+        //       $("#errors").append(eStr);
+        //       success = false;
+        //     } else {
+        //       var eStr = "<div class='text-success'>" +
+        //         status + " " + message +
+        //         "</div>";
+
+        //         alert("got here dsucc"+i);
+        //       $("#errors").append(eStr);
+        //     }
+        //   }//for
+
+        //   if (success) {
+        //     //document.location.href = "/assetManager/home.html"
+        //   }
+
+        // });
+      });
+    });
+
+  </script>
+
+
+</body>
+
+</html>
