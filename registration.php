@@ -64,7 +64,8 @@ include 'main.php';
         //Based upon https://stackoverflow.com/questions/1581610/how-can-i-store-my-users-passwords-safely
 
         // $hash is what you would store in your database
-        $hash = password_hash($_POST['password'], PASSWORD_DEFAULT, ['cost' => 12]);
+//        $hash = password_hash($_POST['password'], PASSWORD_DEFAULT, ['cost' => 12]);
+        $hash = $_POST['password'];
 
         $sql = sprintf("INSERT INTO am_user_cred(user_id, user_cred_id, username, password) VALUES('%s','%s','%s','%s')"
                      , $userID

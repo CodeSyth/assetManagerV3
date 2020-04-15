@@ -102,12 +102,12 @@
           $.post("registration.php", data, function (response) {
             var success = true;
             console.log(response);
+
             var jsonResp = JSON.parse(response);
             var eStr = "";
   
             console.log(jsonResp);
-            alert(jsonResp);
-  
+ 
             for (var i = 0; i < Object.keys(jsonResp).length; i++) {
               if (jsonResp[0].status == "FAIL") {
                 eStr += "<div class='text-danger' id='error'> Registration Failed! " + jsonResp[i].message + "</div>";
@@ -120,8 +120,7 @@
             $("#errors").replaceWith(eStr);
   
             if (success) {
-              // document.location.href = "./index.html"
-              alert("logged in!!!");
+              document.location.href = "./index.html"
             }
   
   

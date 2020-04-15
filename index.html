@@ -39,7 +39,7 @@
         <!-- </form> -->
       </div>
       <div class="col-sm-6">
-
+        <img  src="./img/login.jpg" style="width:100%;"></div>
       </div>
     </div>
   </div>
@@ -68,6 +68,9 @@
         
         $.post("login.php", data, function (response) {
           var success = true;
+          
+          console.log(response);
+
           var jsonResp = JSON.parse(response);
           var eStr = "";
 
@@ -84,12 +87,10 @@
           }
 
           $("#errors").replaceWith(eStr);
-
+          
           if (success) {
-            //document.location.href = "/assetManager/home.html"
-            alert("logged in!!!");
+            document.location.href = "/AssetManagerV3/home.html";
           }
-
 
         });
       });

@@ -15,34 +15,25 @@
                 exit;
             }
     
-            $un=$_POST['username'];
-        
-            $sql = mysqli_query($link, "SELECT * FROM am_user_cred WHERE username = '"+$un+"';");
-            $row = mysqli_num_rows($sql);
-            
 
-            $result = $conn->query("SELECT * FROM am_user_cred WHERE username = '"+$un+"';");
+            $result = $conn->query(sprintf("SELECT * FROM am_user_cred WHERE username = '%s';",$_POST['username']));
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-
-                    $checked = password_verify($_POST['password'], $row["password"]);
+                    $checked = ($_POST['password'] == $row["password"]);
                     if ($checked) {
                         $errors_array[] = array("status" => "SUCCESS", "message" => "Login Success");
                         echo json_encode($errors_array);
                         exit;
                     } else {
-                        $errors_array[] = array("status" => "FAIL", "message" => "Login Failure");
+                        $errors_array[] = array("status" => "FAIL", "message" => "Password Incorrect");
                         echo json_encode($errors_array);
                         exit;
                     }
                 }
             } else {
-                $errors_array[] = array("status" => "FAIL", "message" => "Login DNE");
-                echo json_encode($errors_array);
-                exit;
+                echo "Failed to return records for username.";
             }
-    
             echo json_encode($errors_array);
             exit;
         } else if (empty($_POST['username']) &&  empty($_POST['password'])) {
