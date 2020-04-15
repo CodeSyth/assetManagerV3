@@ -15,7 +15,12 @@ include './../main.php';
         }
         
         if (!empty($_POST['companyName'])){
-            $result =$conn->query("SELECT * FROM am_company WHERE company_name = "+$_POST['companyName']+";");
+            $t = $_POST['companyName'];
+            $sql = sprintf("SELECT * FROM am_company WHERE company_name LIKE '%s';"
+                , $t
+                );
+
+            $result =$conn->query($sql);
         } else {
             $result =$conn->query("SELECT * FROM am_company");
         }

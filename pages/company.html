@@ -80,6 +80,16 @@
             </div>
           </div>
   
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="">Company Name</label>
+                <input name="companyName" class="form-control" placeholder="" oninput="filterResults()">
+              </div>
+            </div>
+          </div>
+
+
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
@@ -117,50 +127,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
 
-    $(document).ready(function () {
+    function buildTable(json){
+      var htmlStr = "<tbody id='grid-data'>";
+      console.log(json);
+      console.log(json[0].company_id);
+
+      for (var i = 0; i < Object.keys(json).length; i++) {
+        //build html data.
+        htmlStr += "<tr>"
+          htmlStr += "<td>"
+            htmlStr += json[i].company_id
+          htmlStr += "</td>"
+          htmlStr += "<td>"
+            htmlStr += json[i].company_name
+          htmlStr += "</td>"
+          htmlStr += "<td>"
+            htmlStr += json[i].company_desc
+          htmlStr += "</td>"
+          htmlStr += "<td>"
+            htmlStr += json[i].create_date
+          htmlStr += "</td>"
+          htmlStr += "<td>"
+            htmlStr += json[i].modify_date
+          htmlStr += "</td>"
+        htmlStr += "</tr>"
+      }
+      htmlStr += "</tbody>";
       
-        data = { "companyName": ""}
+      $("#grid-data").replaceWith(htmlStr);
+
+      console.log(htmlStr);
+      console.log('completed');
+    }
+
+    function filterResults() {
+
+      data = { "companyName": $("input[name=companyName]").val()+"%"}
                 
-        $.post("./company.php", data, function (response) {
-          
-          console.log(response);
+      $.post("./company.php", data, function (response) {
+        console.log(response);
+        var jsonResp = JSON.parse(response);
+        buildTable(jsonResp);
+      });
 
-          var jsonResp = JSON.parse(response);
-          var htmlStr = "";
+    }
 
-          console.log(jsonResp[0]);
-          console.log(jsonResp[0]);
-          console.log(jsonResp[0].company_id);
-
-          for (var i = 0; i < Object.keys(jsonResp).length; i++) {
-            //build html data.
-            htmlStr += "<tr>"
-              htmlStr += "<td>"
-                htmlStr += jsonResp[i].company_id
-              htmlStr += "</td>"
-              htmlStr += "<td>"
-                htmlStr += jsonResp[i].company_name
-              htmlStr += "</td>"
-              htmlStr += "<td>"
-                htmlStr += jsonResp[i].company_desc
-              htmlStr += "</td>"
-              htmlStr += "<td>"
-                htmlStr += jsonResp[i].create_date
-              htmlStr += "</td>"
-              htmlStr += "<td>"
-                htmlStr += jsonResp[i].modify_date
-              htmlStr += "</td>"
-
-            htmlStr += "</tr>"
-
-
-          }
-
-          $("#grid-data").replaceWith(htmlStr);
-          
-
-        });
-      
+    $(document).ready(function () {
+      filterResults();
     });     
 
 
