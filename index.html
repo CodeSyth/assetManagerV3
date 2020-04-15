@@ -32,7 +32,7 @@
           <input name="password" type="password" class="form-control" placeholder="Password">
         </div>
         <button type="submit" class="btn btn-primary" id="btnLogin">Login</button>
-        <a href="">Sign Up</a>
+        <a href="./registrationUser.html">Sign Up</a>
         <div id="errors">
 
         </div>
@@ -59,19 +59,6 @@
   <script>
     $(document).ready(function () {
       $("#btnLogin").click(function () {
-        // $.ajax({
-        //   type: "POST",
-        //   url: "./login.php",
-        //   // The key needs to match your method's input parameter (case-sensitive).
-        //   data: JSON.stringify({'username': $("input[name=username]").val(), 'password': $("input[name=password]").val()}),
-        //   contentType: "application/json; charset=utf-8",
-        //   dataType: "json",
-        //   success: function(data){alert("success");},
-        //   failure: function(errMsg) {
-        //       alert("error");
-        //   }
-        // });
-
         var un = $("input[name=username]").val();
         var pw = $("input[name=password]").val()
 
@@ -105,41 +92,6 @@
 
 
         });
-
-
-        // $.post("login.php",data, function(response){
-        //   var success = true;
-        //   var len = response.length
-
-
-        //   for(var i=0; i<len; i++){
-        //     var status = response[i].status;
-        //     var message = response[i].message;
-
-        //     if (status == "FAIL"){
-        //       var eStr = "<div class='text-danger'>" +
-        //         status + " " + message +
-        //         "</div>";
-
-        //         alert("got here fail");
-
-        //       $("#errors").append(eStr);
-        //       success = false;
-        //     } else {
-        //       var eStr = "<div class='text-success'>" +
-        //         status + " " + message +
-        //         "</div>";
-
-        //         alert("got here dsucc"+i);
-        //       $("#errors").append(eStr);
-        //     }
-        //   }//for
-
-        //   if (success) {
-        //     //document.location.href = "/assetManager/home.html"
-        //   }
-
-        // });
       });
     });
 
