@@ -58,7 +58,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./user.html">
+              <a class="nav-link active" href="./user.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-users">
@@ -67,11 +67,11 @@
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                Users
+                Users  <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="./company.html">
+              <a class="nav-link " href="./company.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-layers">
@@ -79,7 +79,7 @@
                   <polyline points="2 17 12 22 22 17"></polyline>
                   <polyline points="2 12 12 17 22 12"></polyline>
                 </svg>
-                Companies <span class="sr-only">(current)</span>
+                Companies
               </a>
             </li>
           </ul>
@@ -99,7 +99,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2">Companies</h1>
+          <h1 class="h2">Users</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
               <button class="btn  btn-outline-success" type="button" id="btnNew">New</button>
@@ -110,8 +110,16 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="">Company Name</label>
-              <input name="companyName" class="form-control" placeholder="" oninput="filterResults()">
+              <label for="">First Name</label>
+              <input name="firstName" class="form-control" placeholder="" oninput="filterResults()">
+            </div>
+            <div class="form-group">
+              <label for="">Last Name</label>
+              <input name="lastName" class="form-control" placeholder="" oninput="filterResults()">
+            </div>
+            <div class="form-group">
+              <label for="">Email</label>
+              <input name="email" class="form-control" placeholder="" oninput="filterResults()">
             </div>
           </div>
         </div>
@@ -125,8 +133,11 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Company Name</th>
-                <th>Company Desc</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>DOB</th>
                 <th>Create Date</th>
                 <th>Modify Date</th>
               </tr>
@@ -135,107 +146,28 @@
               <tr>
                 <td>1,001</td>
                 <td>Lorem</td>
+                <td>1,001</td>
+                <td>Lorem</td>
                 <td>ipsum</td>
                 <td>dolor</td>
                 <td>sit</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-
-
-
-
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1"
-                href="#collapseOne">
-                <td class="expand-button"></td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-
-              </tr>
-              <tr class="hide-table-padding">
-                <td></td>
-                <td colspan="3">
-                  <div id="collapseOne" class="collapse in p-3">
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 1</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 2</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 3</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 4</div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2"
-                href="#collapseTwo">
-                <td class="expand-button"></td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-
-              </tr>
-              <tr class="hide-table-padding">
-                <td></td>
-                <td colspan="4">
-                  <div id="collapseTwo" class="collapse in p-3">
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value</div>
-                    </div>
-                  </div>
-                </td>
+                <td>tret</td>
               </tr>
             </tbody>
           </table>
         </div>
-
 
 
       </main>
     </div>
   </div>
 
-  <!-- Modal Edit Company -->
+  <!-- Modal Edit User -->
   <div id="coModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Company</h5>
+          <h5 class="modal-title">User</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -248,15 +180,27 @@
 
           <div class="form-group">
             <label for="">ID</label>
-            <input name="eCompanyID" class="form-control" readonly placeholder="-- Auto Generated ID --">
+            <input name="eUserID" class="form-control" readonly placeholder="-- Auto Generated ID --">
           </div>
           <div class="form-group">
-            <label for="">Name</label>
-            <input name="eCompanyName" class="form-control" placeholder="Name">
+            <label for="">First Name</label>
+            <input name="eFirstName" class="form-control" placeholder="First Name">
           </div>
           <div class="form-group">
-            <label for="">Desc</label>
-            <input name="eCompanyDesc" class="form-control" placeholder="Description">
+            <label for="">Last Name</label>
+            <input name="eLastName" class="form-control" placeholder="Last Name">
+          </div>
+          <div class="form-group">
+            <label for="">Email</label>
+            <input name="eEmail" class="form-control" aria-describedby="email" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label for="">DOB</label>
+            <input name="eDOB" class="form-control" placeholder="YYYY-MM-DD">
+          </div>
+          <div class="form-group">
+            <label for="">Phone</label>
+            <input name="ePhone" class="form-control" placeholder="###-###-####">
           </div>
         </div>
         <div class="modal-footer">
@@ -286,36 +230,64 @@
       for (var i = 0; i < Object.keys(json).length; i++) {
         //build html data.
         htmlStr += "<tr>"
+
         htmlStr += "<td>"
         htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>"
         // htmlStr += "<a >"
-        htmlStr += json[i].company_id
+        htmlStr += json[i].user_id
         htmlStr += "</a>"
         htmlStr += "</td>"
+
         htmlStr += "<td>"
-        htmlStr += json[i].company_name
+        htmlStr += json[i].first_name
         htmlStr += "</td>"
+
         htmlStr += "<td>"
-        htmlStr += json[i].company_desc
+        htmlStr += json[i].last_name
         htmlStr += "</td>"
+
+        htmlStr += "<td>"
+        htmlStr += json[i].email
+        htmlStr += "</td>"
+
+        htmlStr += "<td>"
+        htmlStr += json[i].phone
+        htmlStr += "</td>"
+
+        htmlStr += "<td>"
+        htmlStr += json[i].dob
+        htmlStr += "</td>"
+
         htmlStr += "<td>"
         htmlStr += json[i].create_date
         htmlStr += "</td>"
+
         htmlStr += "<td>"
         htmlStr += json[i].modify_date
         htmlStr += "</td>"
+
         htmlStr += "</tr>"
       }
       htmlStr += "</tbody>";
 
       $("#grid-data").replaceWith(htmlStr);
+      console.log(htmlStr);
     }
 
     function filterResults() {
+      console.log('filter');
 
-      data = { "isSearch": true, "companyName": $("input[name=companyName]").val() + "%" }
+      var fn = ($("input[name=firstName]").val() == "" ? "" : $("input[name=firstName]").val() + "%");
+      var ln = ($("input[name=lastName]").val() == "" ? "" : $("input[name=lastName]").val() + "%");
+      var em = ($("input[name=email]").val() == "" ? "" : $("input[name=email]").val() + "%");
 
-      $.post("./company.php", data, function (response) {
+      data = { "isSearch": true, 
+               "firstName": fn,
+               "lastName": ln,
+               "email": em
+               }
+
+      $.post("./user.php", data, function (response) {
         var jsonResp = JSON.parse(response);
         buildTable(jsonResp);
       });
@@ -330,14 +302,15 @@
 
         data = {
           'isSave': true,
-          'companyID': $("input[name=eCompanyID]").val(),
-          'companyName': $("input[name=eCompanyName]").val(),
-          'companyDesc': $("input[name=eCompanyDesc]").val()
+          'userID': $("input[name=eUserID]").val(),
+          'firstName': $("input[name=eFirstName]").val(),
+          'lastName': $("input[name=eLastName]").val(),
+          'email': $("input[name=eEmail]").val(),
+          'dob': $("input[name=eDOB]").val(),
+          'phone': $("input[name=ePhone]").val()
         }
 
-        console.log(data);
-
-        $.post("./company.php", data, function (response) {
+        $.post("./user.php", data, function (response) {
           var success = true;
           console.log(response);
 
@@ -367,12 +340,12 @@
 
         data = {
           'isDelete': true,
-          'companyID': $("input[name=eCompanyID]").val(),
+          'userID': $("input[name=eUserID]").val(),
         }
 
         console.log(data);
 
-        $.post("./company.php", data, function (response) {
+        $.post("./user.php", data, function (response) {
           var success = true;
           console.log(response);
 
@@ -401,9 +374,12 @@
       $("#btnNew").click(function () {
 
         //reset edits
-        $("input[name=eCompanyID]").val('');
-        $("input[name=eCompanyName]").val('');
-        $("input[name=eCompanyDesc]").val('');
+        $("input[name=eUserID]").val('');
+        $("input[name=eFirstName]").val('');
+        $("input[name=eLastName]").val('');
+        $("input[name=eEmail]").val('');
+        $("input[name=eDOB]").val('');
+        $("input[name=ePhone]").val('');
         $("#coModal").modal();
       });
       
@@ -411,17 +387,20 @@
 
 
     function loadData(link) {
-      data = { "loadCompanyID": $(link).text() }
+      data = { "loadUserID": $(link).text() }
 
       console.log($(link).text());
 
-      $.post("./company.php", data, function (response) {
+      $.post("./user.php", data, function (response) {
         console.log(response);
         var jsonResp = JSON.parse(response);
         console.log(jsonResp);
-        $("input[name=eCompanyID]").val(jsonResp[0].company_id);
-        $("input[name=eCompanyName]").val(jsonResp[0].company_name);
-        $("input[name=eCompanyDesc]").val(jsonResp[0].company_desc);
+        $("input[name=eUserID]").val(jsonResp[0].user_id);
+        $("input[name=eFirstName]").val(jsonResp[0].first_name);
+        $("input[name=eLastName]").val(jsonResp[0].last_name);
+        $("input[name=eEmail]").val(jsonResp[0].email);
+        $("input[name=eDOB]").val(jsonResp[0].dob);
+        $("input[name=ePhone]").val(jsonResp[0].phone);
       });
 
       $("#coModal").modal()
