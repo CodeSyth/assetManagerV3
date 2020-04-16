@@ -3,7 +3,7 @@ include './../main.php';
     
 
     //Company Search
-    if (isset($_POST['companyName'])) {
+    if (isset($_POST['isSearch'])) {
         
         $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
         if (!$conn) {
@@ -36,7 +36,7 @@ include './../main.php';
     }
 
 
-    //Edit Company
+    //Load Company
     if (isset($_POST['loadCompanyID'])){
         $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
         if (!$conn) {
@@ -75,8 +75,7 @@ include './../main.php';
     if (isset($_POST['isSave'])){
         $errors_array = array();
 
-        if (empty($_POST['company_name']) 
-         ) {
+        if (empty($_POST['companyName'])) {
             $errors_array[] = array("status" => "FAIL", "message" => "Ensure all fields are entered properly.");
             echo json_encode($errors_array);
             exit;
@@ -92,22 +91,26 @@ include './../main.php';
         }
 
         if (empty($_POST['companyID'])){
+            //Insert
             $companyID = getUUID($conn);
+            $sql = sprintf("INSERT INTO am_company(company_id, company_name, company_desc) VALUES('%s','%s','%s')"
+                , $companyID
+                , $_POST['companyName']
+                , $_POST['companyDesc']
+                );
         } else {
+            //Edit
             $companyID = $_POST['companyID'];
+            $sql = sprintf("UPDATE am_company SET company_name='%s',company_desc='%s' WHERE company_id = '%s';"
+                , $_POST['companyName']
+                , $_POST['companyDesc']
+                , $companyID
+                );
         }
 
         $errors_array[] = array("status" => "DATA", "companyID" => $companyID);
 
-        $sql = sprintf("INSERT INTO am_company(company_id, company_name, company_desc) VALUES('%s','%s','%s')"+
-                       "ON DUPLICATE KEY UPDATE company_name = '%s', company_desc = '%s';" 
-                     , $companyID
-                     , $_POST['companyName']
-                     , $_POST['companyDesc']
-                     , $_POST['companyName']
-                     , $_POST['companyDesc']
-                     );
-
+        //Execute SQL
         if (mysqli_query($conn, $sql)) {
             //success
             $errors_array[] = array("status" => "SUCCESS", "message" => "Company Saved!");
