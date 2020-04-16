@@ -182,9 +182,7 @@ include './../main.php';
         exit;
     }
 
-
-
-        //Delete Company User
+    //Delete Company User
     if (isset($_POST['isDeleteUser'])){
         $errors_array = array();
 
@@ -225,6 +223,55 @@ include './../main.php';
         exit;
     }
 
+    //Add User to Company
+    if (isset($_POST['isAddUser'])){
+        $errors_array = array();
+
+        if (empty($_POST['firstName']) or empty($_POST['lastName'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Ensure all fields are entered properly.");
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        
+        //Find User
+        $sql = sprintf("SELECT user_id FROM am_user WHERE first_name = '%s' and last_name = '%s';"
+            , $_POST['firstName']
+            , $_POST['lastName']
+            );
+    
+        $result =$conn->query($sql);
+        while($row = $result->fetch_assoc()) {
+           
+            $sql = sprintf("INSERT INTO am_company_employs (company_id, user_id) VALUES ('%s','%s');"
+                , $_POST['companyID']
+                , $row['user_id']
+                );
+
+            //Execute SQL
+            if (mysqli_query($conn, $sql)) {
+                //success
+                $errors_array[] = array("status" => "SUCCESS", "message" => "Company Saved!");
+            } else {
+                $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
+            }
+
+        }
+       
+
+        $conn->close();
+        echo json_encode($errors_array);
+        exit;
+    }
 
 
 

@@ -379,7 +379,7 @@
 
                       htmlStr += "<!-- Collapsed Data -->";
                       htmlStr += "<div class='row align-items-center'>";
-                        htmlStr += "<button type='button' class='btn btn-success mr-4'>Add</button>";
+                        htmlStr += `<button type='button' class='btn btn-success mr-4' id='add${i}'  onClick='addEmp(this,"${json[i].company_id}")'>Add</button>`;
                         htmlStr += "<div>";
                           htmlStr += "<select class='form-control' id='sel"+i+"'>";
 
@@ -436,16 +436,6 @@
 
       $("#grid-data-adv").replaceWith(htmlStr);
     }
-
-
-    function getDropdownHTML(companyID){
-
-    }
-
-    function buildSubTable(companyID){
-
-    }
-
 
 
     function filterResults() {
@@ -570,7 +560,6 @@
     function removeUser(button){
       //Remove user from company.
 
-      console.log(button);
 
       data = {
         'isDeleteUser': true,
@@ -602,6 +591,51 @@
 
       });
 
+
+    }
+
+
+    function addEmp(button, companyID){
+      var idx = button.id.slice(-1);
+      var selector = document.getElementById("sel"+idx);
+      var userFull = selector.options[ selector.selectedIndex ].value;
+
+      var user = userFull.split(",").map(function(item) {
+        return item.trim();
+      });
+
+
+      data = {
+        'isAddUser': true,
+        'firstName': user[1],
+        'lastName': user[0],
+        'companyID':companyID
+      }
+
+      console.log(data);
+
+      $.post("./company.php", data, function (response) {
+        var success = true;
+        console.log(response);
+
+        var jsonResp = JSON.parse(response);
+        var eStr = "";
+
+        console.log(jsonResp);
+
+        for (var i = 0; i < Object.keys(jsonResp).length; i++) {
+          if (jsonResp[i].status == "FAIL") {
+            eStr += " Add User Failed! " + jsonResp[i].message + "\n";
+            success = false;
+          };
+        }
+      
+        if (success) {
+          alert("filter");
+          filterResults();
+        }
+
+      });
 
     }
 
