@@ -47,7 +47,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="./assets.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-file">
@@ -120,7 +120,7 @@
 
         </div>
 
-        <div class="table-responsive">
+        <!-- <div class="table-responsive">
           <table class="table table-striped table-sm">
             <thead>
               <tr>
@@ -142,7 +142,7 @@
 
             </tbody>
           </table>
-        </div>
+        </div> -->
 
 
 
@@ -151,44 +151,72 @@
           <table class="table">
             <thead>
               <tr>
+                <th scope="col"></th>
                 <th scope="col">#</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Company Desc</th>
+                <th scope="col">Create Date</th>
+                <th scope="col">Modify Date</th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1"
-                href="#collapseOne">
+            <tbody id="grid-data-adv">
+
+
+
+              <!-- Primary Company Data -->
+              <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
                 <td class="expand-button"></td>
                 <td>Cell</td>
                 <td>Cell</td>
                 <td>Cell</td>
+                <td>Cell</td>
+              </tr>
+                <!-- Sub Data -->
+                <tr class="hide-table-padding">
+                  <td></td>
+                  <td colspan="4">
+                    <div id="collapse1" class="collapse in p-3">
+                      <!-- Collapsed Data -->
 
-              </tr>
-              <tr class="hide-table-padding">
-                <td></td>
-                <td colspan="3">
-                  <div id="collapseOne" class="collapse in p-3">
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 1</div>
+                      <div class="row align-items-center">
+                        <button type="button" class="btn btn-success mr-4">Add</button>
+                        <div>
+                          <select class="form-control" id="sel1">
+                            <option>Nathaniel Zimmer</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      <!-- Employees Table -->
+                      <div class="table-responsive mt-5">
+                        <table class="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>Action</th>
+                              <th>Employee Name</th>
+                            </tr>
+                          </thead>
+                          <tbody id="grid-data">
+                            <tr>
+                              <td>
+                                <button type="button" class="btn btn-link" style="color:#dc3545;">Remove</button> 
+                              </td>
+                              <td>Lorem</td>
+                            </tr>
+              
+                          </tbody>
+                        </table>
+                      </div>
+
                     </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 2</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 3</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">label</div>
-                      <div class="col-6">value 4</div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+
+
               <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2"
                 href="#collapseTwo">
                 <td class="expand-button"></td>
@@ -220,7 +248,7 @@
                   </div>
                 </td>
               </tr>
-            </tbody>
+            </tbody id="grid-data-adv">
           </table>
         </div>
 
@@ -280,42 +308,152 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <script>
 
-    function buildTable(json) {
-      var htmlStr = "<tbody id='grid-data'>";
+    // function buildTable(json) {
+    //   var htmlStr = "<tbody id='grid-data'>";
 
-      for (var i = 0; i < Object.keys(json).length; i++) {
-        //build html data.
-        htmlStr += "<tr>"
-        htmlStr += "<td>"
-        htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>"
-        // htmlStr += "<a >"
-        htmlStr += json[i].company_id
-        htmlStr += "</a>"
-        htmlStr += "</td>"
-        htmlStr += "<td>"
-        htmlStr += json[i].company_name
-        htmlStr += "</td>"
-        htmlStr += "<td>"
-        htmlStr += json[i].company_desc
-        htmlStr += "</td>"
-        htmlStr += "<td>"
-        htmlStr += json[i].create_date
-        htmlStr += "</td>"
-        htmlStr += "<td>"
-        htmlStr += json[i].modify_date
-        htmlStr += "</td>"
-        htmlStr += "</tr>"
-      }
+    //   for (var i = 0; i < Object.keys(json).length; i++) {
+    //     //build html data.
+    //     htmlStr += "<tr>"
+    //     htmlStr += "<td>"
+    //     htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>"
+    //     // htmlStr += "<a >"
+    //     htmlStr += json[i].company_id
+    //     htmlStr += "</a>"
+    //     htmlStr += "</td>"
+    //     htmlStr += "<td>"
+    //     htmlStr += json[i].company_name
+    //     htmlStr += "</td>"
+    //     htmlStr += "<td>"
+    //     htmlStr += json[i].company_desc
+    //     htmlStr += "</td>"
+    //     htmlStr += "<td>"
+    //     htmlStr += json[i].create_date
+    //     htmlStr += "</td>"
+    //     htmlStr += "<td>"
+    //     htmlStr += json[i].modify_date
+    //     htmlStr += "</td>"
+    //     htmlStr += "</tr>"
+    //   }
+    //   htmlStr += "</tbody>";
+
+    //   $("#grid-data").replaceWith(htmlStr);
+    // }
+
+
+    function buildTable(json) {
+      var htmlStr = "<tbody id='grid-data-adv'>";
+
+        console.log(json);
+
+        for (var i = 0; i < Object.keys(json).length; i++) {
+          
+          // Primary Company Record
+          htmlStr += "<tr class='accordion-toggle collapsed' id='accordion"+i+"' data-toggle='collapse' data-parent='#accordion"+i+"' href='#collapse"+i+"'>";
+            htmlStr += "<td class='expand-button'></td>";
+            htmlStr += "<td>";
+            htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>";
+              htmlStr += json[i].company_id;
+            htmlStr += "</a>";
+            htmlStr += "</td>";
+            htmlStr += "<td>";
+              htmlStr += json[i].company_name;
+            htmlStr += "</td>";
+            htmlStr += "<td>";
+              htmlStr += json[i].company_desc;
+            htmlStr += "</td>";
+            htmlStr += "<td>";
+              htmlStr += json[i].create_date;
+            htmlStr += "</td>";
+            htmlStr += "<td>";
+            htmlStr += json[i].modify_date;
+            htmlStr += "</td>";
+          htmlStr += "</tr>";
+
+          
+
+                // Sub Data 
+                htmlStr += "<tr class='hide-table-padding'>";
+                  htmlStr += "<td></td>";
+                  htmlStr += "<td colspan='4'>";
+                    htmlStr += "<div id='collapse"+i+"' class='collapse in p-3'>";
+
+                      htmlStr += "<!-- Collapsed Data -->";
+                      htmlStr += "<div class='row align-items-center'>";
+                        htmlStr += "<button type='button' class='btn btn-success mr-4'>Add</button>";
+                        htmlStr += "<div>";
+                          htmlStr += "<select class='form-control' id='sel"+i+"'>";
+
+                            for (let j = 0; j < json[i].emp.length; j++) {
+                              if (json[i].emp[j].Selected == "UNSEL") 
+                                htmlStr += "<option>"+json[i].emp[j].last_name+", "+json[i].emp[j].first_name+"</option>";  
+                            }
+
+                          htmlStr += "</select>";
+                        htmlStr += "</div>";
+                      htmlStr += "</div>";
+
+
+                            htmlStr += "<!-- Employees Table -->";
+                            htmlStr += "<div class='table-responsive mt-5'>";
+                              htmlStr += "<table class='table table-striped table-sm'>";
+                                htmlStr += "<thead>";
+                                  htmlStr += "<tr>";
+                                    htmlStr += "<th>Action</th>";
+                                    htmlStr += "<th>Employee Name</th>";
+                                  htmlStr += "</tr>";
+                                htmlStr += "</thead>";
+                                htmlStr += "<tbody id='grid-data'>";
+                                    
+                                  for (let k = 0; k < json[i].emp.length; k++) {
+                                    if (json[i].emp[k].Selected == "SEL") {
+
+                                      htmlStr += "<tr>";
+                                        htmlStr += "<td>";
+                                          htmlStr += "<button type='button' class='btn btn-link' style='color:#dc3545;' onClick='removeUser(this)' data-companyId='"+json[i].emp[k].company_id+"' data-userId='"+json[i].emp[k].user_id+"''>Remove</button> ";
+                                        htmlStr += "</td>";
+                                        htmlStr += "<td>"+json[i].emp[k].last_name+", "+json[i].emp[k].first_name+"</td>";
+                                      htmlStr += "</tr>";
+
+                                    }
+                                  }
+              
+                                htmlStr += "</tbody>";
+                              htmlStr += "</table>";
+                            htmlStr += "</div>";
+
+                      htmlStr += "</div>";
+                    htmlStr += "</td>";
+                htmlStr += "</tr>";
+
+
+
+
+
+
+        }
+
       htmlStr += "</tbody>";
 
-      $("#grid-data").replaceWith(htmlStr);
+      $("#grid-data-adv").replaceWith(htmlStr);
     }
+
+
+    function getDropdownHTML(companyID){
+
+    }
+
+    function buildSubTable(companyID){
+
+    }
+
+
 
     function filterResults() {
 
       data = { "isSearch": true, "companyName": $("input[name=companyName]").val() + "%" }
 
       $.post("./company.php", data, function (response) {
+        console.log(response);
         var jsonResp = JSON.parse(response);
         buildTable(jsonResp);
       });
@@ -426,6 +564,47 @@
 
       $("#coModal").modal()
     }
+
+
+
+    function removeUser(button){
+      //Remove user from company.
+
+      console.log(button);
+
+      data = {
+        'isDeleteUser': true,
+        'companyID': button.getAttribute("data-companyId"),
+        'userID': button.getAttribute("data-userId"),
+      }
+
+      console.log(data);
+
+      $.post("./company.php", data, function (response) {
+        var success = true;
+        console.log(response);
+
+        var jsonResp = JSON.parse(response);
+        var eStr = "";
+
+        console.log(jsonResp);
+
+        for (var i = 0; i < Object.keys(jsonResp).length; i++) {
+          if (jsonResp[i].status == "FAIL") {
+            eStr += " Delete Failed! " + jsonResp[i].message + "\n";
+            success = false;
+          };
+        }
+      
+        if (success) {
+          filterResults();
+        }
+
+      });
+
+
+    }
+
 
   </script>
 

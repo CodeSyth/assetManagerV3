@@ -25,8 +25,29 @@ include './../main.php';
             $result =$conn->query("SELECT * FROM am_company");
         }
 
+
         $rows = array();
+
         while($row = $result->fetch_assoc()) {
+            //company general info
+
+            
+            //Get employees selected
+            $empSQL = $sql = "SELECT *, "
+            . "CASE  "
+            . "	WHEN CE.company_id IS NULL THEN 'UNSEL' "
+            . "    WHEN CE.company_id IS NOT NULL THEN 'SEL' "
+            . "END AS Selected "
+            . "FROM am_user U "
+            . "	LEFT OUTER JOIN am_company_employs CE "
+            . "    ON CE.user_id = U.user_id  "
+            . "    AND CE.company_id = '" . $row["company_id"] . "';";
+
+            $resultEmps =$conn->query($empSQL);
+            while($r = $resultEmps->fetch_assoc()) { 
+                $row['emp'][] = $r;
+            }
+           
             $rows[] = $row;
         }
        
@@ -60,6 +81,7 @@ include './../main.php';
 
         $rows = array();
         while($row = $result->fetch_assoc()) {
+            //General Primary Company Info
             $rows[] = $row;
         }
        
@@ -162,7 +184,48 @@ include './../main.php';
 
 
 
-    
+        //Delete Company User
+    if (isset($_POST['isDeleteUser'])){
+        $errors_array = array();
+
+        if (empty($_POST['companyID'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "No company is selected for delete.");
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        //Delete
+        $companyID = $_POST['companyID'];
+        $userID = $_POST['userID'];
+        $sql = sprintf("DELETE FROM am_company_employs WHERE company_id = '%s' AND user_id = '%s';"
+            , $companyID
+            , $userID
+            );
+
+        //Execute SQL
+        if (mysqli_query($conn, $sql)) {
+            //success
+            $errors_array[] = array("status" => "SUCCESS", "message" => "Company Deleted!");
+        } else {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
+        }
+
+
+        $conn->close();
+        echo json_encode($errors_array);
+        exit;
+    }
+
+
 
 
 
