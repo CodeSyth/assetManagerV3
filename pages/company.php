@@ -68,9 +68,6 @@ include './../main.php';
         exit;
     }
 
-
-  
-
     //Save Company
     if (isset($_POST['isSave'])){
         $errors_array = array();
@@ -123,5 +120,50 @@ include './../main.php';
         echo json_encode($errors_array);
         exit;
     }
+
+    //Delete Company
+    if (isset($_POST['isDelete'])){
+        $errors_array = array();
+
+        if (empty($_POST['companyID'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "No company is selected for delete.");
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        //Delete
+        $companyID = $_POST['companyID'];
+        $sql = sprintf("DELETE FROM am_company WHERE company_id = '%s';"
+            , $companyID
+            );
+
+        //Execute SQL
+        if (mysqli_query($conn, $sql)) {
+            //success
+            $errors_array[] = array("status" => "SUCCESS", "message" => "Company Deleted!");
+        } else {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
+        }
+
+
+        $conn->close();
+        echo json_encode($errors_array);
+        exit;
+    }
+
+
+
+    
+
+
 
 ?>
