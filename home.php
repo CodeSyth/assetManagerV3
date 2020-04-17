@@ -201,9 +201,9 @@ include './main.php';
                          . " ORDER by create_Month desc; ");
 
             $result =$conn->query($sql);
-        } 
 
-        $rows = array();
+
+            $rows = array();
             $rows['active'][] = array_fill(0, 12, 0);
             $rows['broken'][] = array_fill(0, 12, 0);
             $rows['disabled'][] = array_fill(0, 12, 0);
@@ -211,19 +211,47 @@ include './main.php';
            
         
 
-        while($row = $result->fetch_assoc()) {
+            while($row = $result->fetch_assoc()) {
 
 
-             if ($row['status'] == 'active') {
-                $rows['active'][0][$row['create_Month']] += $row['TotalCount'];
-             } elseif ($row['status'] == 'broken') {
-                $rows['broken'][0][$row['create_Month']] += $row['TotalCount'];
-            } elseif ($row['status'] == 'disabled') {
-                $rows['disabled'][0][$row['create_Month']] += $row['TotalCount'];
-            } else {
-                $rows['other'][0][$row['create_Month']] += $row['TotalCount'];
-            }   
+                if ($row['status'] == 'active') {
+                    $rows['active'][0][$row['create_Month']] += $row['TotalCount'];
+                } elseif ($row['status'] == 'broken') {
+                    $rows['broken'][0][$row['create_Month']] += $row['TotalCount'];
+                } elseif ($row['status'] == 'disabled') {
+                    $rows['disabled'][0][$row['create_Month']] += $row['TotalCount'];
+                } else {
+                    $rows['other'][0][$row['create_Month']] += $row['TotalCount'];
+                }   
+                
+            }
+
+        } else {
+
+            $sql = sprintf("SELECT month(A.create_date)-1 AS create_Month, COUNT(a.Status) AS TotalCount, LOWER(A.a_type) as a_type"
+            . " FROM  am_asset a "
+            . " GROUP BY MONTH(A.create_date), A.a_type "
+            . " ORDER by create_Month desc; ");
+
+            $result =$conn->query($sql);
+
+
+            $rows = array();
+            $rows['hardware'][] = array_fill(0, 12, 0);
+            $rows['software'][] = array_fill(0, 12, 0);
+
+            while($row = $result->fetch_assoc()) {
+
+                if ($row['a_type'] == 'hardware') {
+                    $rows['hardware'][0][$row['create_Month']] += $row['TotalCount'];
+                } elseif ($row['a_type'] == 'software') {
+                    $rows['software'][0][$row['create_Month']] += $row['TotalCount'];
+                }   
             
+            }
+
+
+
         }
        
         
