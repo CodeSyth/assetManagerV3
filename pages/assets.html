@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.13/dist/css/bootstrap-select.min.css">
+
+
   <link href="./../css/dashboard.css" rel="stylesheet">
   <link href="./../css/table.css" rel="stylesheet">
 
@@ -47,18 +51,18 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./assets.html">
+              <a class="nav-link active" href="./assets.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-file">
                   <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                   <polyline points="13 2 13 9 20 9"></polyline>
                 </svg>
-                Assets
+                Assets <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="./user.html">
+              <a class="nav-link" href="./user.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-users">
@@ -67,7 +71,7 @@
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                Users  <span class="sr-only">(current)</span>
+                Users
               </a>
             </li>
             <li class="nav-item">
@@ -99,7 +103,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2">Users</h1>
+          <h1 class="h2">Assets</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
               <button class="btn  btn-outline-success" type="button" id="btnNew">New</button>
@@ -110,16 +114,25 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="">First Name</label>
-              <input name="firstName" class="form-control" placeholder="" oninput="filterResults()">
+              <label for="">Name</label>
+              <input name="assetName" class="form-control" placeholder="" oninput="filterResults()">
             </div>
             <div class="form-group">
-              <label for="">Last Name</label>
-              <input name="lastName" class="form-control" placeholder="" oninput="filterResults()">
+              <label for="">Code</label>
+              <input name="code" class="form-control" placeholder="" oninput="filterResults()">
             </div>
             <div class="form-group">
-              <label for="">Email</label>
-              <input name="email" class="form-control" placeholder="" oninput="filterResults()">
+              <label for="">Status</label>
+              <input name="status" class="form-control" placeholder="" oninput="filterResults()">
+            </div>
+            <div class="form-group">
+              <label for="">Type</label>
+              <select id="type" onchange="filterResults()" class="selectpicker">
+                <option value="">All</option>
+                <option value="software">Software</option>
+                <option value="hardware">Hardware</option>
+              </select>
+
             </div>
           </div>
         </div>
@@ -128,34 +141,123 @@
 
         </div>
 
+
         <div class="table-responsive">
-          <table class="table table-striped table-sm">
+          <table class="table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>DOB</th>
-                <th>Create Date</th>
-                <th>Modify Date</th>
+                <th scope="col"></th>
+                <th scope="col">#</th>
+                <th scope="col">Type</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Code</th>
+                <th scope="col">Status</th>
+                <th scope="col">Purchase Date</th>
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Serial Num</th>
+                <th scope="col">Company</th>
+                <th scope="col">Create Date</th>
+                <th scope="col">Modify Date</th>
               </tr>
             </thead>
-            <tbody id="grid-data">
-              <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
-                <td>tret</td>
+            <tbody id="grid-data-adv">
+
+
+
+              <!-- Primary Company Data -->
+              <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1"
+                href="#collapse1">
+                <td class="expand-button"></td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
               </tr>
-            </tbody>
+              <!-- Sub Data -->
+              <tr class="hide-table-padding">
+                <td></td>
+                <td colspan="13">
+                  <div id="collapse1" class="collapse in p-3">
+                    <!-- Collapsed Data -->
+
+                    <div class="row align-items-center">
+                      <button type="button" class="btn btn-success mr-4">Add</button>
+                      <div>
+                        <select class="form-control" id="sel1">
+                          <option>Nathaniel Zimmer</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <!-- Employees Table -->
+                    <div class="table-responsive mt-5">
+                      <table class="table table-striped table-sm">
+                        <thead>
+                          <tr>
+                            <th>Action</th>
+                            <th>Employee Name</th>
+                          </tr>
+                        </thead>
+                        <tbody id="grid-data">
+                          <tr>
+                            <td>
+                              <button type="button" class="btn btn-link" style="color:#dc3545;">Remove</button>
+                            </td>
+                            <td>Lorem</td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2"
+                href="#collapseTwo">
+                <td class="expand-button"></td>
+                <td>Cell</td>
+                <td>Cell</td>
+                <td>Cell</td>
+
+              </tr>
+              <tr class="hide-table-padding">
+                <td></td>
+                <td colspan="4">
+                  <div id="collapseTwo" class="collapse in p-3">
+                    <div class="row">
+                      <div class="col-2">label</div>
+                      <div class="col-6">value</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">label</div>
+                      <div class="col-6">value</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">label</div>
+                      <div class="col-6">value</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-2">label</div>
+                      <div class="col-6">value</div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody id="grid-data-adv">
           </table>
         </div>
+
+
+
 
 
       </main>
@@ -167,7 +269,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">User</h5>
+          <h5 class="modal-title">Asset</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -178,29 +280,57 @@
 
           </div>
 
+          
+
+          <div class="form-group">
+            <label for="">Type</label>
+            <select id="eType" class="selectpicker">
+              <option value="software">Software</option>
+              <option value="hardware">Hardware</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="">ID</label>
-            <input name="eUserID" class="form-control" readonly placeholder="-- Auto Generated ID --">
+            <input name="eAssetID" class="form-control" readonly placeholder="-- Auto Generated ID --">
           </div>
           <div class="form-group">
-            <label for="">First Name</label>
-            <input name="eFirstName" class="form-control" placeholder="First Name">
+            <label for="">Name</label>
+            <input name="eName" class="form-control" placeholder="Name">
           </div>
           <div class="form-group">
-            <label for="">Last Name</label>
-            <input name="eLastName" class="form-control" placeholder="Last Name">
+            <label for="">Description</label>
+            <input name="eDesc" class="form-control" placeholder="Description">
           </div>
           <div class="form-group">
-            <label for="">Email</label>
-            <input name="eEmail" class="form-control" aria-describedby="email" placeholder="Email">
+            <label for="">Code</label>
+            <input name="eCode" class="form-control" placeholder="Code">
           </div>
           <div class="form-group">
-            <label for="">DOB</label>
-            <input name="eDOB" class="form-control" placeholder="YYYY-MM-DD">
+            <label for="">Status</label>
+            <input name="eStatus" class="form-control" placeholder="Status">
+            <small id="statusHelp" class="form-text text-muted">Active, Broken, Disabled, etc.</small>
           </div>
           <div class="form-group">
-            <label for="">Phone</label>
-            <input name="ePhone" class="form-control" placeholder="###-###-####">
+            <label for="">Purchase Date</label>
+            <input name="ePDate" class="form-control" placeholder="YYYY-MM-DD">
+          </div>
+          <div class="form-group">
+            <label for="">Purchase Price</label>
+            <input name="ePPrice" class="form-control" placeholder="">
+          </div>
+          <div class="form-group">
+            <label for="">Qty</label>
+            <input name="eQty" class="form-control" placeholder="">
+          </div>
+          <div class="form-group">
+            <label for="">Serial Num / License Num</label>
+            <input name="eSerialNum" class="form-control" placeholder="">
+          </div>
+          <div class="form-group">
+            <label for="">Owning Company</label>
+            <select id="eCompany" class="">
+              
+            </select>
           </div>
         </div>
         <div class="modal-footer">
@@ -222,77 +352,188 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.13/dist/js/bootstrap-select.min.js"></script>
+
   <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
 
     function buildTable(json) {
-      var htmlStr = "<tbody id='grid-data'>";
+      var htmlStr = "<tbody id='grid-data-adv'>";
+
+      console.log("Build Table");
+      console.log(json);
 
       for (var i = 0; i < Object.keys(json).length; i++) {
-        //build html data.
-        htmlStr += "<tr>"
 
-        htmlStr += "<td>"
-        htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>"
-        // htmlStr += "<a >"
-        htmlStr += json[i].user_id
-        htmlStr += "</a>"
-        htmlStr += "</td>"
+        // Primary Company Record
+        htmlStr += "<tr class='accordion-toggle collapsed' id='accordion" + i + "' data-toggle='collapse' data-parent='#accordion" + i + "' href='#collapse" + i + "'>";
+        htmlStr += "<td class='expand-button'></td>";
+        htmlStr += "<td>";
+        htmlStr += "<a data-toggle='modal' onClick='loadData(this)' style='color:#007bff'>";
+        htmlStr += json[i].asset_id;
+        htmlStr += "</a>";
+        htmlStr += "</td>";
+        htmlStr += "<td>";
 
-        htmlStr += "<td>"
-        htmlStr += json[i].first_name
-        htmlStr += "</td>"
+          if (json[i].a_type == "software") {
+            htmlStr += `<img src="./../img/box.png" data-toggle="tooltip" data-placement="top" title="Software">`
+          } else {
+            htmlStr += `<img src="./../img/ram.png" data-toggle="tooltip" data-placement="top" title="Hardware">`
+          }
+        
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].a_name;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].a_desc;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].code;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].status;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].purchase_date;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].purchase_price;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].qty;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].serial_num;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].company_name;
+        htmlStr += "</td>";
 
-        htmlStr += "<td>"
-        htmlStr += json[i].last_name
-        htmlStr += "</td>"
+        htmlStr += "<td>";
+        htmlStr += json[i].create_date;
+        htmlStr += "</td>";
+        htmlStr += "<td>";
+        htmlStr += json[i].modify_date;
+        htmlStr += "</td>";
+        htmlStr += "</tr>";
 
-        htmlStr += "<td>"
-        htmlStr += json[i].email
-        htmlStr += "</td>"
 
-        htmlStr += "<td>"
-        htmlStr += json[i].phone
-        htmlStr += "</td>"
 
-        htmlStr += "<td>"
-        htmlStr += json[i].dob
-        htmlStr += "</td>"
+        // // Sub Data 
+        // htmlStr += "<tr class='hide-table-padding'>";
+        // htmlStr += "<td></td>";
+        // htmlStr += "<td colspan='4'>";
+        // htmlStr += "<div id='collapse" + i + "' class='collapse in p-3'>";
 
-        htmlStr += "<td>"
-        htmlStr += json[i].create_date
-        htmlStr += "</td>"
+        // htmlStr += "<!-- Collapsed Data -->";
+        // htmlStr += "<div class='row align-items-center'>";
+        // htmlStr += `<button type='button' class='btn btn-success mr-4' id='add${i}'  onClick='addEmp(this,"${json[i].company_id}")'>Add</button>`;
+        // htmlStr += "<div>";
+        // htmlStr += "<select class='form-control' id='sel" + i + "'>";
 
-        htmlStr += "<td>"
-        htmlStr += json[i].modify_date
-        htmlStr += "</td>"
+        // for (let j = 0; j < json[i].emp.length; j++) {
+        //   if (json[i].emp[j].Selected == "UNSEL")
+        //     htmlStr += "<option>" + json[i].emp[j].last_name + ", " + json[i].emp[j].first_name + "</option>";
+        // }
 
-        htmlStr += "</tr>"
+        // htmlStr += "</select>";
+        // htmlStr += "</div>";
+        // htmlStr += "</div>";
+
+
+        // htmlStr += "<!-- Employees Table -->";
+        // htmlStr += "<div class='table-responsive mt-5'>";
+        // htmlStr += "<table class='table table-striped table-sm'>";
+        // htmlStr += "<thead>";
+        // htmlStr += "<tr>";
+        // htmlStr += "<th>Action</th>";
+        // htmlStr += "<th>Employee Name</th>";
+        // htmlStr += "</tr>";
+        // htmlStr += "</thead>";
+        // htmlStr += "<tbody id='grid-data'>";
+
+        // for (let k = 0; k < json[i].emp.length; k++) {
+        //   if (json[i].emp[k].Selected == "SEL") {
+
+        //     htmlStr += "<tr>";
+        //     htmlStr += "<td>";
+        //     htmlStr += "<button type='button' class='btn btn-link' style='color:#dc3545;' onClick='removeUser(this)' data-companyId='" + json[i].emp[k].company_id + "' data-userId='" + json[i].emp[k].user_id + "''>Remove</button> ";
+        //     htmlStr += "</td>";
+        //     htmlStr += "<td>" + json[i].emp[k].last_name + ", " + json[i].emp[k].first_name + "</td>";
+        //     htmlStr += "</tr>";
+
+        //   }
+        // }
+
+        // htmlStr += "</tbody>";
+        // htmlStr += "</table>";
+        // htmlStr += "</div>";
+
+        // htmlStr += "</div>";
+        // htmlStr += "</td>";
+        htmlStr += "</tr>";
+
+
+
+
+
+
       }
+
       htmlStr += "</tbody>";
 
-      $("#grid-data").replaceWith(htmlStr);
-      console.log(htmlStr);
+      $("#grid-data-adv").replaceWith(htmlStr);
     }
 
     function filterResults() {
-      console.log('filter');
 
-      var fn = ($("input[name=firstName]").val() == "" ? "" : $("input[name=firstName]").val() + "%");
-      var ln = ($("input[name=lastName]").val() == "" ? "" : $("input[name=lastName]").val() + "%");
-      var em = ($("input[name=email]").val() == "" ? "" : $("input[name=email]").val() + "%");
+      var an = ($("input[name=assetName]").val() == "" ? "" : $("input[name=assetName]").val() + "%");
+      var c = ($("input[name=code]").val() == "" ? "" : $("input[name=code]").val() + "%");
+      var s = ($("input[name=status]").val() == "" ? "" : $("input[name=status]").val() + "%");
+      var t = ($("#type").val() == "" ? "" : $("#type").val() + "%");
 
-      data = { "isSearch": true, 
-               "firstName": fn,
-               "lastName": ln,
-               "email": em
-               }
+      data = {
+        "isSearch": true,
+        "assetName": an,
+        "code": c,
+        "status": s,
+        "type": t,
+      }
 
-      $.post("./user.php", data, function (response) {
+      $.post("./assets.php", data, function (response) {
+        console.log(response);
         var jsonResp = JSON.parse(response);
         buildTable(jsonResp);
       });
 
     }
+
+    function buildModal(){
+
+      data = {
+        "isLoadCompany": true,
+      }
+
+      $.post("./assets.php", data, function (response) {
+        console.log(response);
+        var jsonResp = JSON.parse(response);
+        var sel = document.getElementById("eCompany");
+        
+          for (let i = 0; i < jsonResp.length; i++) {
+            var option = document.createElement("option");
+            option.text = jsonResp[i].company_name;
+            option.value = jsonResp[i].company_id;
+            sel.add(option);
+          }
+
+      });
+    }
+
 
     $(document).ready(function () {
       filterResults();
@@ -302,15 +543,22 @@
 
         data = {
           'isSave': true,
-          'userID': $("input[name=eUserID]").val(),
-          'firstName': $("input[name=eFirstName]").val(),
-          'lastName': $("input[name=eLastName]").val(),
-          'email': $("input[name=eEmail]").val(),
-          'dob': $("input[name=eDOB]").val(),
-          'phone': $("input[name=ePhone]").val()
+          'assetID': $("input[name=eAssetID]").val(),
+          'name': $("input[name=eName]").val(),
+          'desc': $("input[name=eDesc]").val(),
+          'type': $("#eType").val(),
+          'code': $("input[name=eCode]").val(),
+          'status': $("input[name=eStatus]").val(),
+          'pdate': $("input[name=ePDate]").val(),
+          'price': $("input[name=ePPrice]").val(),
+          'qty': $("input[name=eQty]").val(),
+          'serialNum': $("input[name=eSerialNum]").val(),
+          'owningCompany': $("#eCompany").val(),
         }
 
-        $.post("./user.php", data, function (response) {
+        console.log(data);
+
+        $.post("./assets.php", data, function (response) {
           var success = true;
           console.log(response);
 
@@ -325,7 +573,7 @@
               success = false;
             };
           }
-        
+
           if (success) {
             $("#coModal").modal('hide');
             filterResults();
@@ -340,12 +588,12 @@
 
         data = {
           'isDelete': true,
-          'userID': $("input[name=eUserID]").val(),
+          'assetID': $("input[name=eAssetID]").val(),
         }
 
         console.log(data);
 
-        $.post("./user.php", data, function (response) {
+        $.post("./assets.php", data, function (response) {
           var success = true;
           console.log(response);
 
@@ -360,7 +608,7 @@
               success = false;
             };
           }
-        
+
           if (success) {
             $("#coModal").modal('hide');
             filterResults();
@@ -374,36 +622,127 @@
       $("#btnNew").click(function () {
 
         //reset edits
-        $("input[name=eUserID]").val('');
-        $("input[name=eFirstName]").val('');
-        $("input[name=eLastName]").val('');
-        $("input[name=eEmail]").val('');
-        $("input[name=eDOB]").val('');
-        $("input[name=ePhone]").val('');
+        $("input[name=eAssetID]").val('');
+        $("input[name=eName]").val('');
+        $("input[name=eDesc]").val('');
+        $("input[name=eCode]").val('');
+        $("input[name=eStatus]").val('');
+        $("input[name=ePDate]").val('');
+        $("input[name=ePPrice]").val('');
+        $("input[name=eQty]").val('');
+        $("input[name=eSerialNum]").val('');
+        $("#eCompany").val('');
+
+        buildModal();
         $("#coModal").modal();
       });
-      
+
     });
 
-
     function loadData(link) {
-      data = { "loadUserID": $(link).text() }
+      data = { "loadModal": $(link).text() }
 
       console.log($(link).text());
 
-      $.post("./user.php", data, function (response) {
+      $.post("./assets.php", data, function (response) {
         console.log(response);
         var jsonResp = JSON.parse(response);
         console.log(jsonResp);
-        $("input[name=eUserID]").val(jsonResp[0].user_id);
-        $("input[name=eFirstName]").val(jsonResp[0].first_name);
-        $("input[name=eLastName]").val(jsonResp[0].last_name);
-        $("input[name=eEmail]").val(jsonResp[0].email);
-        $("input[name=eDOB]").val(jsonResp[0].dob);
-        $("input[name=ePhone]").val(jsonResp[0].phone);
+
+        $("input[name=eAssetID]").val(jsonResp[0].asset_id);
+        $("input[name=eName]").val(jsonResp[0].a_name);
+        $("input[name=eDesc]").val(jsonResp[0].a_desc);
+        $("input[name=eCode]").val(jsonResp[0].code);
+        $("input[name=eStatus]").val(jsonResp[0].status);
+        $("input[name=ePDate]").val(jsonResp[0].purchase_date);
+        $("input[name=ePPrice]").val(jsonResp[0].purchase_price);
+        $("input[name=eQty]").val(jsonResp[0].qty);
+        $("input[name=eSerialNum]").val(jsonResp[0].serial_num);
+        $("#eCompany").val(jsonResp[0].company_id);
       });
 
       $("#coModal").modal()
+    }
+
+    function removeUser(button) {
+      //Remove user from company.
+
+
+      data = {
+        'isDeleteUser': true,
+        'companyID': button.getAttribute("data-companyId"),
+        'userID': button.getAttribute("data-userId"),
+      }
+
+      console.log(data);
+
+      $.post("./company.php", data, function (response) {
+        var success = true;
+        console.log(response);
+
+        var jsonResp = JSON.parse(response);
+        var eStr = "";
+
+        console.log(jsonResp);
+
+        for (var i = 0; i < Object.keys(jsonResp).length; i++) {
+          if (jsonResp[i].status == "FAIL") {
+            eStr += " Delete Failed! " + jsonResp[i].message + "\n";
+            success = false;
+          };
+        }
+
+        if (success) {
+          filterResults();
+        }
+
+      });
+
+
+    }
+
+    function addEmp(button, companyID) {
+      var idx = button.id.slice(-1);
+      var selector = document.getElementById("sel" + idx);
+      var userFull = selector.options[selector.selectedIndex].value;
+
+      var user = userFull.split(",").map(function (item) {
+        return item.trim();
+      });
+
+
+      data = {
+        'isAddUser': true,
+        'firstName': user[1],
+        'lastName': user[0],
+        'companyID': companyID
+      }
+
+      console.log(data);
+
+      $.post("./company.php", data, function (response) {
+        var success = true;
+        console.log(response);
+
+        var jsonResp = JSON.parse(response);
+        var eStr = "";
+
+        console.log(jsonResp);
+
+        for (var i = 0; i < Object.keys(jsonResp).length; i++) {
+          if (jsonResp[i].status == "FAIL") {
+            eStr += " Add User Failed! " + jsonResp[i].message + "\n";
+            success = false;
+          };
+        }
+
+        if (success) {
+          alert("filter");
+          filterResults();
+        }
+
+      });
+
     }
 
   </script>
