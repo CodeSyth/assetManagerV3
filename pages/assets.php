@@ -73,7 +73,17 @@ include './../main.php';
             while($r = $resultU->fetch_assoc()) { 
                 $row['user'][] = $r;
             }
-           
+
+            
+            //Get locations
+            $lSQL = "SELECT * FROM am_asset_location "
+            . " WHERE asset_id = '" . $row["asset_id"] . "';";
+
+            $resultL =$conn->query($lSQL);
+            while($r1 = $resultL->fetch_assoc()) { 
+                $row['location'][] = $r1;
+            }
+
             $rows[] = $row;
         }
         
@@ -291,6 +301,49 @@ include './../main.php';
         exit;
     }
 
+    
+
+    //Delete Lcoation
+    if (isset($_POST['isDeleteLocation'])){
+        $errors_array = array();
+
+        if (empty($_POST['locationID'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "No asset is selected for delete.");
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        //Delete
+        $locationID = $_POST['locationID'];
+        $sql = sprintf("DELETE FROM am_asset_location WHERE location_id = '%s';"
+            , $locationID
+            );
+
+        //Execute SQL
+        if (mysqli_query($conn, $sql)) {
+            //success
+            $errors_array[] = array("status" => "SUCCESS", "message" => "Location Deleted!");
+        } else {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
+        }
+
+
+        $conn->close();
+        echo json_encode($errors_array);
+        exit;
+    }
+
+
+
     //Add User to Asset
     if (isset($_POST['isAddUser'])){
         $errors_array = array();
@@ -330,6 +383,46 @@ include './../main.php';
         exit;
     }
 
+
+
+    //Add Location to Asset
+    if (isset($_POST['isAddLocation'])){
+        $errors_array = array();
+
+        if (empty($_POST['locationDesc']) or empty($_POST['assetID'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Ensure all fields are entered properly.");
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+
+        
+        
+        $sql = sprintf("INSERT INTO am_asset_location (asset_id, location_id, location_desc) VALUES ('%s',uuid(), '%s');"
+            , $_POST['assetID']
+            , $_POST['locationDesc']
+            );
+
+        //Execute SQL
+        if (mysqli_query($conn, $sql)) {
+            //success
+            $errors_array[] = array("status" => "SUCCESS", "message" => "Location Saved!");
+        } else {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
+        }
+
+        $conn->close();
+        echo json_encode($errors_array);
+        exit;
+    }
 
 
 
