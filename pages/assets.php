@@ -57,6 +57,23 @@ include './../main.php';
 
         $rows = array();
         while($row = $result->fetch_assoc()) {
+           
+            //Get Managing Users selected
+            $uSQL = "SELECT U.*, "
+            . "CASE  "
+            . "	WHEN MB.asset_id IS NULL THEN 'UNSEL' "
+            . "    WHEN MB.asset_id IS NOT NULL THEN 'SEL' "
+            . "END AS Selected "
+            . "FROM am_user U "
+            . "	LEFT OUTER JOIN am_assets_managed_by MB "
+            . "    ON MB.user_id = U.user_id  "
+            . "    AND MB.asset_id = '" . $row["asset_id"] . "';";
+
+            $resultU =$conn->query($uSQL);
+            while($r = $resultU->fetch_assoc()) { 
+                $row['user'][] = $r;
+            }
+           
             $rows[] = $row;
         }
         
@@ -65,7 +82,7 @@ include './../main.php';
         exit;
     }
 
-    //Load Company
+    //Load Companies for the Modal
     if (isset($_POST['isLoadCompany'])){
         $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
         if (!$conn) {
@@ -77,6 +94,39 @@ include './../main.php';
         }
         
         $result =$conn->query("SELECT * FROM am_company");
+
+        $rows = array();
+        while($row = $result->fetch_assoc()) {
+            //General Primary Company Info
+            $rows[] = $row;
+        }
+       
+        echo json_encode($rows);
+        $conn->close();
+        exit;
+    }
+
+    //Load the Modal from Existing Record
+    if (isset($_POST['loadModal'])){
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+        
+        if (!empty($_POST['loadModal'])){
+            $id = $_POST['loadModal'];
+            $sql = sprintf("SELECT * FROM am_asset WHERE asset_id = '%s';"
+                , $id
+                );
+
+            $result =$conn->query($sql);
+        } else {
+            $result =$conn->query("SELECT * FROM am_asset");
+        }
 
         $rows = array();
         while($row = $result->fetch_assoc()) {
@@ -198,12 +248,14 @@ include './../main.php';
         exit;
     }
 
-    //Delete Company User
+
+
+    //Delete Managing User
     if (isset($_POST['isDeleteUser'])){
         $errors_array = array();
 
-        if (empty($_POST['companyID'])) {
-            $errors_array[] = array("status" => "FAIL", "message" => "No company is selected for delete.");
+        if (empty($_POST['assetID'])) {
+            $errors_array[] = array("status" => "FAIL", "message" => "No asset is selected for delete.");
             echo json_encode($errors_array);
             exit;
         }
@@ -218,17 +270,17 @@ include './../main.php';
         }
 
         //Delete
-        $companyID = $_POST['companyID'];
+        $assetID = $_POST['assetID'];
         $userID = $_POST['userID'];
-        $sql = sprintf("DELETE FROM am_company_employs WHERE company_id = '%s' AND user_id = '%s';"
-            , $companyID
+        $sql = sprintf("DELETE FROM am_assets_managed_by WHERE asset_id = '%s' AND user_id = '%s';"
+            , $assetID
             , $userID
             );
 
         //Execute SQL
         if (mysqli_query($conn, $sql)) {
             //success
-            $errors_array[] = array("status" => "SUCCESS", "message" => "Company Deleted!");
+            $errors_array[] = array("status" => "SUCCESS", "message" => "User Deleted!");
         } else {
             $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
         }
@@ -239,11 +291,11 @@ include './../main.php';
         exit;
     }
 
-    //Add User to Company
+    //Add User to Asset
     if (isset($_POST['isAddUser'])){
         $errors_array = array();
 
-        if (empty($_POST['firstName']) or empty($_POST['lastName'])) {
+        if (empty($_POST['userID']) or empty($_POST['assetID'])) {
             $errors_array[] = array("status" => "FAIL", "message" => "Ensure all fields are entered properly.");
             echo json_encode($errors_array);
             exit;
@@ -259,30 +311,19 @@ include './../main.php';
         }
 
         
-        //Find User
-        $sql = sprintf("SELECT user_id FROM am_user WHERE first_name = '%s' and last_name = '%s';"
-            , $_POST['firstName']
-            , $_POST['lastName']
+        
+        $sql = sprintf("INSERT INTO am_assets_managed_by (asset_id, user_id) VALUES ('%s','%s');"
+            , $_POST['assetID']
+            , $_POST['userID']
             );
-    
-        $result =$conn->query($sql);
-        while($row = $result->fetch_assoc()) {
-           
-            $sql = sprintf("INSERT INTO am_company_employs (company_id, user_id) VALUES ('%s','%s');"
-                , $_POST['companyID']
-                , $row['user_id']
-                );
 
-            //Execute SQL
-            if (mysqli_query($conn, $sql)) {
-                //success
-                $errors_array[] = array("status" => "SUCCESS", "message" => "Company Saved!");
-            } else {
-                $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
-            }
-
+        //Execute SQL
+        if (mysqli_query($conn, $sql)) {
+            //success
+            $errors_array[] = array("status" => "SUCCESS", "message" => "Company Saved!");
+        } else {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: " . $sql . "" . mysqli_error($conn));
         }
-       
 
         $conn->close();
         echo json_encode($errors_array);

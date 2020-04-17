@@ -424,58 +424,59 @@
 
 
 
-        // // Sub Data 
-        // htmlStr += "<tr class='hide-table-padding'>";
-        // htmlStr += "<td></td>";
-        // htmlStr += "<td colspan='4'>";
-        // htmlStr += "<div id='collapse" + i + "' class='collapse in p-3'>";
+        // Sub Data Managing User
+        htmlStr += "<tr class='hide-table-padding'>";
+        htmlStr += "<td></td>";
+        htmlStr += "<td colspan='13'>";
+        htmlStr += "<div id='collapse" + i + "' class='collapse in p-3'>";
 
-        // htmlStr += "<!-- Collapsed Data -->";
-        // htmlStr += "<div class='row align-items-center'>";
-        // htmlStr += `<button type='button' class='btn btn-success mr-4' id='add${i}'  onClick='addEmp(this,"${json[i].company_id}")'>Add</button>`;
-        // htmlStr += "<div>";
-        // htmlStr += "<select class='form-control' id='sel" + i + "'>";
+        htmlStr += "<!-- Collapsed Data -->";
+        htmlStr += "<h3>Managing Users</h3>";
+        htmlStr += "<div class='row align-items-center' style='margin-left: 0px;'>";
+        htmlStr += `<button type='button' class='btn btn-success mr-4' id='add${i}'  onClick='addUser(this,"${json[i].asset_id}")'>Add</button>`;
+        htmlStr += "<div>";
+        htmlStr += "<select class='form-control' id='sel" + i + "'>";
 
-        // for (let j = 0; j < json[i].emp.length; j++) {
-        //   if (json[i].emp[j].Selected == "UNSEL")
-        //     htmlStr += "<option>" + json[i].emp[j].last_name + ", " + json[i].emp[j].first_name + "</option>";
-        // }
+        for (let j = 0; j < json[i].user.length; j++) {
+           if (json[i].user[j].Selected == "UNSEL")
+             htmlStr += `<option value="${json[i].user[j].user_id}">` + json[i].user[j].last_name + ", " + json[i].user[j].first_name + "</option>";
+        }
 
-        // htmlStr += "</select>";
-        // htmlStr += "</div>";
-        // htmlStr += "</div>";
+        htmlStr += "</select>";
+        htmlStr += "</div>";
+        htmlStr += "</div>";
 
 
-        // htmlStr += "<!-- Employees Table -->";
-        // htmlStr += "<div class='table-responsive mt-5'>";
-        // htmlStr += "<table class='table table-striped table-sm'>";
-        // htmlStr += "<thead>";
-        // htmlStr += "<tr>";
-        // htmlStr += "<th>Action</th>";
-        // htmlStr += "<th>Employee Name</th>";
-        // htmlStr += "</tr>";
-        // htmlStr += "</thead>";
-        // htmlStr += "<tbody id='grid-data'>";
+        htmlStr += "<!-- Managing Users Table -->";
+        htmlStr += "<div class='table-responsive mt-5'>";
+        htmlStr += "<table class='table table-striped table-sm'>";
+        htmlStr += "<thead>";
+        htmlStr += "<tr>";
+        htmlStr += "<th>Action</th>";
+        htmlStr += "<th>Managing User's Name</th>";
+        htmlStr += "</tr>";
+        htmlStr += "</thead>";
+        htmlStr += "<tbody id='grid-data'>";
 
-        // for (let k = 0; k < json[i].emp.length; k++) {
-        //   if (json[i].emp[k].Selected == "SEL") {
+        for (let k = 0; k < json[i].user.length; k++) {
+          if (json[i].user[k].Selected == "SEL") {
 
-        //     htmlStr += "<tr>";
-        //     htmlStr += "<td>";
-        //     htmlStr += "<button type='button' class='btn btn-link' style='color:#dc3545;' onClick='removeUser(this)' data-companyId='" + json[i].emp[k].company_id + "' data-userId='" + json[i].emp[k].user_id + "''>Remove</button> ";
-        //     htmlStr += "</td>";
-        //     htmlStr += "<td>" + json[i].emp[k].last_name + ", " + json[i].emp[k].first_name + "</td>";
-        //     htmlStr += "</tr>";
+            htmlStr += "<tr>";
+            htmlStr += "<td>";
+            htmlStr += "<button type='button' class='btn btn-link' style='color:#dc3545;' onClick='removeUser(this)' data-assetId='" + json[i].asset_id + "' data-userId='" + json[i].user[k].user_id + "''>Remove</button> ";
+            htmlStr += "</td>";
+            htmlStr += "<td>" + json[i].user[k].last_name + ", " + json[i].user[k].first_name + "</td>";
+            htmlStr += "</tr>";
 
-        //   }
-        // }
+          }
+        }
 
-        // htmlStr += "</tbody>";
-        // htmlStr += "</table>";
-        // htmlStr += "</div>";
+        htmlStr += "</tbody>";
+        htmlStr += "</table>";
+        htmlStr += "</div>";
 
-        // htmlStr += "</div>";
-        // htmlStr += "</td>";
+        htmlStr += "</div>";
+        htmlStr += "</td>";
         htmlStr += "</tr>";
 
 
@@ -533,7 +534,6 @@
 
       });
     }
-
 
     $(document).ready(function () {
       filterResults();
@@ -640,6 +640,8 @@
     });
 
     function loadData(link) {
+      buildModal();
+
       data = { "loadModal": $(link).text() }
 
       console.log($(link).text());
@@ -658,25 +660,22 @@
         $("input[name=ePPrice]").val(jsonResp[0].purchase_price);
         $("input[name=eQty]").val(jsonResp[0].qty);
         $("input[name=eSerialNum]").val(jsonResp[0].serial_num);
-        $("#eCompany").val(jsonResp[0].company_id);
+        $(`#eCompany option[value="${jsonResp[0].company_id}"`);
       });
 
       $("#coModal").modal()
     }
 
     function removeUser(button) {
-      //Remove user from company.
-
-
+      //Remove user from asset.
+      
       data = {
         'isDeleteUser': true,
-        'companyID': button.getAttribute("data-companyId"),
+        'assetID': button.getAttribute("data-assetId"),
         'userID': button.getAttribute("data-userId"),
       }
 
-      console.log(data);
-
-      $.post("./company.php", data, function (response) {
+      $.post("./assets.php", data, function (response) {
         var success = true;
         console.log(response);
 
@@ -701,26 +700,18 @@
 
     }
 
-    function addEmp(button, companyID) {
+    function addUser(button, assetID) {
       var idx = button.id.slice(-1);
-      var selector = document.getElementById("sel" + idx);
-      var userFull = selector.options[selector.selectedIndex].value;
-
-      var user = userFull.split(",").map(function (item) {
-        return item.trim();
-      });
-
 
       data = {
         'isAddUser': true,
-        'firstName': user[1],
-        'lastName': user[0],
-        'companyID': companyID
+        'userID': $("#sel"+idx).val(),
+        'assetID': assetID,
       }
 
       console.log(data);
 
-      $.post("./company.php", data, function (response) {
+      $.post("./assets.php", data, function (response) {
         var success = true;
         console.log(response);
 
