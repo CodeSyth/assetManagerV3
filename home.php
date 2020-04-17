@@ -182,5 +182,55 @@ include './main.php';
     
 
 
+    //Dashboard Data
+    if (isset($_POST['isDashboard'])) {
+        
+        $conn = mysqli_connect("127.0.0.1", "root", "", "asset_management");
+        if (!$conn) {
+            $errors_array[] = array("status" => "FAIL", "message" => "Error: Unable to connect to MySQL." . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging errno: " . mysqli_connect_errno() . PHP_EOL);
+            $errors_array[] = array("status" => "FAIL", "message" => "Debugging error: " . mysqli_connect_error() . PHP_EOL);
+            echo json_encode($errors_array);
+            exit;
+        }
+        
+        if ($_POST['option'] == "status"){
+            $sql = sprintf("SELECT month(A.create_date)-1 AS create_Month, COUNT(a.Status) AS TotalCount, LOWER(A.status) as status"
+                         . " FROM  am_asset a "
+                         . " GROUP BY MONTH(A.create_date), A.status "
+                         . " ORDER by create_Month desc; ");
+
+            $result =$conn->query($sql);
+        } 
+
+        $rows = array();
+            $rows['active'][] = array_fill(0, 12, 0);
+            $rows['broken'][] = array_fill(0, 12, 0);
+            $rows['disabled'][] = array_fill(0, 12, 0);
+            $rows['other'][] = array_fill(0, 12, 0);
+           
+        
+
+        while($row = $result->fetch_assoc()) {
+
+
+             if ($row['status'] == 'active') {
+                $rows['active'][0][$row['create_Month']] += $row['TotalCount'];
+             } elseif ($row['status'] == 'broken') {
+                $rows['broken'][0][$row['create_Month']] += $row['TotalCount'];
+            } elseif ($row['status'] == 'disabled') {
+                $rows['disabled'][0][$row['create_Month']] += $row['TotalCount'];
+            } else {
+                $rows['other'][0][$row['create_Month']] += $row['TotalCount'];
+            }   
+            
+        }
+       
+        
+        echo json_encode($rows);
+        $conn->close();
+        exit;
+    }
+
 
 ?>
