@@ -153,53 +153,89 @@
               }
 
       $.post("./home.php", data, function (response) {
+
+
         console.log(response);
         var jsonResp = JSON.parse(response);
         console.log(jsonResp);
 
 
         if (select.val() == "status") {
-          var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],
-            datasets: [{
-                        label: 'Active',
-                        data: jsonResp.active[0],
-                        backgroundColor: '#20c997' // green
-                      },
-                      {
-                        label: 'Disabled',
-                        data: jsonResp.disabled[0],
-                        backgroundColor: '#ffc107' // yellow
-                      },
-                      {
-                        label: 'Broken',
-                        data: jsonResp.broken[0],
-                        backgroundColor: '#dc3545' // red
-                      },
-                      {
-                        label: 'Other',
-                        data: jsonResp.other[0],
-                        backgroundColor: '#6c757d' // grey
-                      }]
+                var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],
+                  datasets: [{
+                              label: 'Active',
+                              data: jsonResp.active[0],
+                              backgroundColor: '#20c997' // green
+                            },
+                            {
+                              label: 'Disabled',
+                              data: jsonResp.disabled[0],
+                              backgroundColor: '#ffc107' // yellow
+                            },
+                            {
+                              label: 'Broken',
+                              data: jsonResp.broken[0],
+                              backgroundColor: '#dc3545' // red
+                            },
+                            {
+                              label: 'Other',
+                              data: jsonResp.other[0],
+                              backgroundColor: '#6c757d' // grey
+                            }]
 
-          },
-          options: {
-            scales: {
-              xAxes: [{
-                stacked: true
-              }],
-              yAxes: [{
-                stacked: true
-              }],
-            },
-          }
-        });
-        }
-      }); //post
+                },
+                options: {
+                  scales: {
+                    xAxes: [{
+                      stacked: true
+                    }],
+                    yAxes: [{
+                      stacked: true
+                    }],
+                  },
+                }
+              });
+
+        } else if (select.val() == "added") {
+
+              var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],
+                  datasets: [{
+                              label: 'Active',
+                              data: jsonResp.active[0],
+                              backgroundColor: '#20c997' // green
+                            },
+                            {
+                              label: 'Disabled',
+                              data: jsonResp.disabled[0],
+                              backgroundColor: '#ffc107' // yellow
+                            },
+                            {
+                              label: 'Broken',
+                              data: jsonResp.broken[0],
+                              backgroundColor: '#dc3545' // red
+                            },
+                            {
+                              label: 'Other',
+                              data: jsonResp.other[0],
+                              backgroundColor: '#6c757d' // grey
+                            }]
+
+                },
+                options: {
+                  
+                }
+              });
 
 
+        }//if
+
+      }); // post
 
     }
 
