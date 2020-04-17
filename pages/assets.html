@@ -482,7 +482,7 @@
         htmlStr += "<!-- Collapsed Data -->";
         htmlStr += "<h3>Locations</h3>";
         htmlStr += "<div class='row align-items-center' style='margin-left: 0px;'>";
-        htmlStr += `<button type='button' class='btn btn-success mr-4' id='add${i}'  onClick='addLocation(this,"${json[i].asset_id}")'>Add</button>`;
+        htmlStr += `<button type='button' class='btn btn-success mb-3' id='add${i}'  onClick='addLocation(this,"${json[i].asset_id}")'>Add</button>`;
           htmlStr += `<textarea class="form-control" id="ta${i}" rows="3"></textarea>`
         htmlStr += "</div>";
 
@@ -502,7 +502,7 @@
           for (let k = 0; k < json[i].location.length; k++) {
             htmlStr += "<tr>";
             htmlStr += "<td>";
-            htmlStr += `<button type='button' class='btn btn-link' style='color:#dc3545;' onClick='removeLocation(this, '${json[i].location[k].location_id}')'>Remove</button>`;
+            htmlStr += `<button type='button' class='btn btn-link' style='color:#dc3545;' onClick="removeLocation(this, '${json[i].location[k].location_id}')">Remove</button>`;
             htmlStr += "</td>";
             htmlStr += "<td>" + json[i].location[k].location_desc + "</td>";
             htmlStr += "</tr>";
@@ -779,10 +779,14 @@
     function removeLocation(button, locationID) {
       //Remove location from asset.
 
+      console.log(locationID);
+
       data = {
         'isDeleteLocation': true,
         'locationID': locationID,
       }
+
+      console.log(data);
 
       $.post("./assets.php", data, function (response) {
         var success = true;
